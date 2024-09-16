@@ -16,6 +16,7 @@ TileMap::TileMap(int mapId)
 
 void TileMap::setMapInfo(int newMapId)
 {
+	presetMaps.updateMapById(mapId, tilesMap); // *** save current map progress before changing map
 	this->tilesMap = presetMaps.getMapById(newMapId);
 	this->playerPos = presetMaps.getStartPos(mapId, newMapId);
 	this->mapId = newMapId;

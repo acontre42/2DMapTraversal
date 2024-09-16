@@ -15,5 +15,6 @@ public:
 	bool idExists(int id);
 	std::vector<std::vector<Tile>>& getMapById(int id); // ***
 	std::pair<int, int> getStartPos(int prevMapId, int nextMapId);
+	void updateMapById(int id, std::vector<std::vector<Tile>> currentMap); // ***
 };
 

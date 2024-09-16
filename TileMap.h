@@ -32,7 +32,7 @@ private:
 	int rows;
 	int cols;
 	Player player;
-	RNG rng; // ***
+	RNG rng;
 	void setMapInfo(int newMapId);
 	std::string checkDestination(std::pair<int, int> destination, int direction);
 	void updatePlayerPos(std::pair<int, int> destination, int movement);

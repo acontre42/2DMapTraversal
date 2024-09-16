@@ -87,3 +87,20 @@ std::pair<int, int> PresetMapIds::getStartPos(int prevMapId, int nextMapId)
 		exit(1);
 	}
 }
+// Should be called before getMapById whenever changing maps.
+void PresetMapIds::updateMapById(int id, std::vector<std::vector<Tile>> currentMap) // ***
+{
+	if (id == NO_MAP)
+	{
+		return; // initial state, nothing to save
+	}
+	else if (idExists(id))
+	{
+		maps[id] = currentMap;
+	}
+	else
+	{
+		std::cout << "ERROR: could not update map, id does not exist\n";
+		exit(1);
+	}
+}
