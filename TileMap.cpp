@@ -184,25 +184,26 @@ void TileMap::searchArea(std::pair<int, int> coords)
 	player.coins = player.coins + numCoins;
 }
 
-void TileMap::display() // TO DO: add legend, set char playerIcon to avoid repeated switch?
+void TileMap::display()
 {
 	// info
-	std::cout << "PLAYER: ";
+	char playerIcon = ' ';
 	switch (player.facing)
 	{
 	case WEST:
-		std::cout << FWEST;
+		playerIcon = FWEST;
 		break;
 	case NORTH:
-		std::cout << FNORTH;
+		playerIcon = FNORTH;
 		break;
 	case EAST:
-		std::cout << FEAST;
+		playerIcon = FEAST;
 		break;
 	case SOUTH:
-		std::cout << FSOUTH;
+		playerIcon = FSOUTH;
 		break;
 	}
+	std::cout << "PLAYER: " << playerIcon;
 	std::cout << "\tCOINS: " << player.coins << std::endl;
 
 	// upper border
@@ -220,21 +221,7 @@ void TileMap::display() // TO DO: add legend, set char playerIcon to avoid repea
 		{
 			if (i == playerPos.first && j == playerPos.second)
 			{
-				switch (player.facing)
-				{
-				case WEST:
-					std::cout << FWEST;
-					break;
-				case NORTH:
-					std::cout << FNORTH;
-					break;
-				case EAST:
-					std::cout << FEAST;
-					break;
-				case SOUTH:
-					std::cout << FSOUTH;
-					break;
-				}
+				std::cout << playerIcon;
 			}
 			else
 			{
@@ -247,6 +234,25 @@ void TileMap::display() // TO DO: add legend, set char playerIcon to avoid repea
 
 	// lower border
 	for (int i = 0; i < cols + 2; i++)
+	{
+		std::cout << "- ";
+	}
+	std::cout << "\n";
+}
+
+void TileMap::displayLegend()
+{
+	std::vector<std::pair<std::string, char>> legend = Tile::getLegendAsPairs();
+	for (int i = 0; i < 20; i++)
+	{
+		std::cout << "- ";
+	}
+	std::cout << "\n\tMap Legend:\n";
+	for (auto& pair : legend)
+	{
+		std::cout << "\t" <<  pair.second << "\t" << pair.first << "\n";
+	}
+	for (int i = 0; i < 20; i++)
 	{
 		std::cout << "- ";
 	}
@@ -352,10 +358,10 @@ void TileMap::traverse() // TO DO: separate into functions?
 		display();
 
 		char choice = ' ';
-		while (choice != 'F' && choice != 'B' && choice != 'L' && choice != 'R' && choice != 'Q')
+		while (choice != 'F' && choice != 'B' && choice != 'L' && choice != 'R' && choice != 'M' && choice != 'Q')
 		{
 			std::cout << "Enter 'F' to move FORWARD, 'B' to move BACKWARD, 'L' to go LEFT, or 'R' to go RIGHT.\n";
-			std::cout << "To QUIT program, enter 'Q'.\n";
+			std::cout << "To display MAP LEGEND, enter 'M'. To QUIT program, enter 'Q'.\n";
 			std::cout << "What would you like to do? ";
 			std::cin >> choice;
 			std::cin.clear();
@@ -377,6 +383,9 @@ void TileMap::traverse() // TO DO: separate into functions?
 			break;
 		case 'R':
 			result = goRight();
+			break;
+		case 'M':
+			displayLegend();
 			break;
 		case 'Q':
 			std::cout << "Goodbye!\n";

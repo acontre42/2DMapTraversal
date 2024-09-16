@@ -82,3 +82,13 @@ void Tile::setAsSearched()
 		searched = true;
 	}
 }
+std::vector< std::pair<std::string, char> > Tile::getLegendAsPairs()
+{
+	std::vector< std::pair<std::string, char> > legend;
+	legend.push_back({ "Map Exit", iEXIT }); // Exit
+	legend.push_back({ "Water", iWATER }); // Water
+	legend.push_back({ "Tree", iTREE }); // Tree
+	legend.push_back({ "Hole", iHOLE }); // Hole
+	legend.push_back({ "X-Marked Spot", iTREASURE }); // Treasure
+	return legend;
+}

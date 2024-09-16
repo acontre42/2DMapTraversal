@@ -3,7 +3,7 @@
 #include "PresetMapIds.h"
 #include <vector>
 #include <string>
-#include "RNG.h" // ***
+#include "RNG.h" 
 
 const int numDirections = 4;
 enum DIRECTIONS { WEST = 1, NORTH = 2, EAST = 3, SOUTH = 4 };
@@ -43,6 +43,7 @@ public:
 	static const int MAP1 = PresetMapIds::MAP1, MAP2 = PresetMapIds::MAP2;
 	TileMap(int mapId);
 	void display();
+	void displayLegend();
 	std::string goForward();
 	std::string goBackward();
 	std::string goLeft();

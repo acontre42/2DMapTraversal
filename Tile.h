@@ -1,6 +1,7 @@
 #pragma once
 #include "Tile.h"
 #include <string>
+#include <vector>
 
 const char iEXIT = 'E', iWATER = '~', iLAND = ' ', iTREE = 'T', iHOLE = 'o', iTREASURE = 'x';
 const int NO_EXIT_ID = -1;
@@ -29,5 +30,6 @@ public:
 	int getExitId() const;
 	void setExitId(int exitId);
 	void setAsSearched();
+	static std::vector< std::pair<std::string, char> > getLegendAsPairs();
 };
 
