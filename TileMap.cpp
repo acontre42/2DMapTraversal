@@ -16,7 +16,7 @@ TileMap::TileMap(int mapId)
 
 void TileMap::setMapInfo(int newMapId)
 {
-	presetMaps.updateMapById(mapId, tilesMap); // *** save current map progress before changing map
+	presetMaps.updateMapById(mapId, tilesMap); // save current map progress before changing map
 	this->tilesMap = presetMaps.getMapById(newMapId);
 	this->playerPos = presetMaps.getStartPos(mapId, newMapId);
 	this->mapId = newMapId;
@@ -180,7 +180,14 @@ void TileMap::searchArea(std::pair<int, int> coords)
 	{
 		numCoins = numCoins + TREASURE_BONUS;
 	}
-	std::cout << "You found " << numCoins << " coins!\n";
+	if (numCoins == 0)
+	{
+		std::cout << "You did not manage to find anything.\n";
+	}
+	else
+	{
+		std::cout << "You found " << numCoins << (numCoins == 1 ? " coin" : " coins") << "!\n";
+	}
 	tile->setAsSearched();
 	player.coins = player.coins + numCoins;
 }
