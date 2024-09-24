@@ -3,6 +3,7 @@
 TileMap::TileMap(int mapId)
 {
 	this->mapId = PresetMapIds::NO_MAP;
+	gameMap = nullptr;
 	if (presetMaps.idExists(mapId))
 	{
 		setMapInfo(mapId);
@@ -17,9 +18,16 @@ TileMap::TileMap(int mapId)
 void TileMap::setMapInfo(int newMapId)
 {
 	presetMaps.updateMapById(mapId, tilesMap); // save current map progress before changing map
-	this->tilesMap = presetMaps.getMapById(newMapId);
+
+	this->gameMap = &presetMaps.getGameMapById(newMapId);
+	this->tilesMap = gameMap->getTilesMap();
 	this->playerPos = presetMaps.getStartPos(mapId, newMapId);
-	this->mapId = newMapId;
+	if (gameMap->getId() != newMapId)
+	{
+		std::cout << "ERROR: newMapId != gameMap's id\n";
+		exit(1);
+	}
+	this->mapId = gameMap->getId();
 	this->rows = tilesMap.size();
 	this->cols = tilesMap[0].size();
 }
@@ -211,6 +219,7 @@ void TileMap::display()
 		playerIcon = FSOUTH;
 		break;
 	}
+	std::cout << "LOCATION: " << gameMap->getMapName() << "\n";
 	std::cout << "PLAYER: " << playerIcon;
 	std::cout << "\tCOINS: " << player.coins << std::endl;
 

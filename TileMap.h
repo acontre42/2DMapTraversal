@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "RNG.h" 
+#include "GameMap.h"
 
 const int numDirections = 4;
 enum DIRECTIONS { WEST = 1, NORTH = 2, EAST = 3, SOUTH = 4 };
@@ -26,12 +27,13 @@ class TileMap
 {
 private:
 	PresetMapIds presetMaps; // Object with Map of vector<vector<Tile>> maps.
+	GameMap* gameMap;
 	int mapId;
 	std::vector< std::vector<Tile> > tilesMap;
-	std::pair<int, int> playerPos;
 	int rows;
 	int cols;
 	Player player;
+	std::pair<int, int> playerPos;
 	RNG rng;
 	void setMapInfo(int newMapId);
 	std::string checkDestination(std::pair<int, int> destination, int direction);
@@ -40,7 +42,7 @@ private:
 	void promptSearch(std::pair<int, int> searchCoords);
 	void searchArea(std::pair<int, int> coords);
 public:
-	static const int MAP1 = PresetMapIds::MAP1, MAP2 = PresetMapIds::MAP2;
+	static const int MAP1 = PresetMapIds::MAP1;
 	TileMap(int mapId);
 	void display();
 	void displayLegend();
