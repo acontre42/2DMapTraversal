@@ -20,7 +20,7 @@ GameMap::GameMap(int id, std::vector<std::vector<Tile>> tilesMap, std::string ma
 int GameMap::getId() { return id; }
 std::vector<std::vector<Tile>>& GameMap::getTilesMap() { return tilesMap; }
 std::string GameMap::getMapName() const { return mapName; }
-int GameMap::getUnlockPrice() const{ return priceToUnlock; }
+int GameMap::getUnlockPrice() const { return priceToUnlock; }
 bool GameMap::isLocked() const { return locked; }
 void GameMap::setTilesMap(std::vector<std::vector<Tile>> tilesMap)
 {
@@ -35,27 +35,26 @@ void GameMap::setPrice(int price)
 	priceToUnlock = price;
 	locked = (priceToUnlock == UNLOCKED_PRICE ? false : true);
 }
-std::string GameMap::unlock(int& playerCoins)
+bool GameMap::unlock(int& playerCoins)
 {
 	if (!locked)
 	{
-		return "This area has already been unlocked.\n";
+		std::cout << "This area has already been unlocked.\n";
+		return false;
 	}
 	else if (playerCoins < priceToUnlock)
 	{
 
-		std::string result = "Insufficient funds. Price to unlock next area is " + priceToUnlock;
-		result += " coins. You currently have " + playerCoins;
-		result += ".\n";
-		return result;
+		std::cout << "Insufficient funds. Price to unlock next area is " << priceToUnlock << " coins. ";
+		std::cout << "You currently have " << playerCoins << ".\n";
+		return false;
 	}
 	else
 	{
 		playerCoins = playerCoins - priceToUnlock;
 		locked = false;
-		std::string result = "You've unlocked a new area! " + priceToUnlock;
-		result += " coins have been subtracted from your inventory.\n";
+		std::cout << "You've unlocked a new area! " << priceToUnlock << " coins have been subtracted from your inventory.\n";
 		priceToUnlock = UNLOCKED_PRICE;
-		return result;
+		return true;
 	}
 }

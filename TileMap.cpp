@@ -1,5 +1,22 @@
 #include "TileMap.h"
 
+TileMap::TileMap()
+{
+	this->mapId = PresetMapIds::NO_MAP;
+	gameMap = nullptr;
+
+	int defaultId = PresetMapIds::MAP1;
+	if (presetMaps.idExists(defaultId))
+	{
+		setMapInfo(defaultId);
+	}
+	else
+	{
+		std::cout << "ERROR: Invalid id.\n";
+		exit(1);
+	}
+}
+
 TileMap::TileMap(int mapId)
 {
 	this->mapId = PresetMapIds::NO_MAP;
@@ -144,6 +161,31 @@ void TileMap::promptExit()
 		}
 		
 		setMapInfo(nextMapId);
+	}
+}
+
+void TileMap::promptUnlock(GameMap nextAreaGameMap) // ***
+{
+	int unlockPrice = nextAreaGameMap.getUnlockPrice();
+	std::cout << "The next area costs " << unlockPrice << " coins to unlock. ";
+
+	char choice = ' ';
+	while (choice != 'Y' && choice != 'N')
+	{
+		std::cout << "Would you like to use your coins to unlock this area? Enter 'Y' for yes or 'N' for no.\n";
+		std::cin >> choice;
+		choice = toupper(choice);
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	}
+	if (choice == 'Y')
+	{
+		bool successfulUnlock = nextAreaGameMap.unlock(player.coins);
+		if (successfulUnlock)
+		{
+			presetMaps.updatePriceById(nextAreaGameMap.getId(), nextAreaGameMap.getUnlockPrice());
+			promptExit();
+		}
 	}
 }
 
@@ -414,13 +456,24 @@ void TileMap::traverse() // TO DO: separate into functions?
 
 		std::cout << result;
 
-		if (tilesMap[playerPos.first][playerPos.second].isExitable())
-		{
-			promptExit();
-		}
-		if (tilesMap[playerPos.first][playerPos.second].isSearchable())
+		// check current tile conditions
+		Tile* currentTile = &tilesMap[playerPos.first][playerPos.second];
+		if (currentTile->isSearchable())
 		{
 			promptSearch(playerPos);
+		}
+		if (currentTile->isExitable())
+		{
+			int nextId = currentTile->getExitId();
+			GameMap nextGM = presetMaps.getGameMapById(nextId);
+			if (nextGM.isLocked()) // ***
+			{
+				promptUnlock(nextGM);
+			}
+			else
+			{
+				promptExit();
+			}
 		}
 
 		std::cout << "\n";

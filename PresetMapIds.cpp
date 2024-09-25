@@ -5,7 +5,7 @@
 PresetMapIds::PresetMapIds()
 {
 	// FIRST MAP
-	std::vector<std::vector<Tile>>map1 = {
+	std::vector<std::vector<Tile>> map1 = {
 		{ Tile{Tile::EXIT}, Tile{Tile::LAND}, Tile{Tile::LAND}, Tile {Tile::LAND}, Tile{Tile::LAND}, Tile{Tile::LAND}},
 		{ Tile{Tile::HOLE}, Tile{Tile::LAND}, Tile{Tile::LAND}, Tile{Tile::WATER}, Tile{Tile::WATER}, Tile{Tile::LAND} },
 		{ Tile{Tile::TREE}, Tile{Tile::TREE}, Tile{Tile::TREE}, Tile{Tile::WATER}, Tile{Tile::WATER}, Tile{Tile::LAND} },
@@ -44,7 +44,7 @@ PresetMapIds::PresetMapIds()
 		
 	};
 	map3[5][0].setExitId(MAP2);
-	GameMap gm3{ MAP3, map3, "Map 3", 250 };
+	GameMap gm3{ MAP3, map3, "Map 3", 175 };
 	gameMaps.insert({ MAP3, gm3 });
 	
 

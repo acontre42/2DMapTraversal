@@ -23,5 +23,5 @@ public:
 	void setTilesMap(std::vector<std::vector<Tile>> tilesMap);
 	void setMapName(std::string newName);
 	void setPrice(int price);
-	std::string unlock(int& playerCoins);
+	bool unlock(int& playerCoins);
 };

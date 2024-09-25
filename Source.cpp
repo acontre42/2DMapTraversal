@@ -3,7 +3,7 @@
 
 int main()
 {
-	TileMap map{ TileMap::MAP1 };
+	TileMap map;
 	map.traverse();
 
 	return 0;

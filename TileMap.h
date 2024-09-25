@@ -39,10 +39,12 @@ private:
 	std::string checkDestination(std::pair<int, int> destination, int direction);
 	void updatePlayerPos(std::pair<int, int> destination, int movement);
 	void promptExit();
+	void promptUnlock(GameMap nextAreaGameMap); // ***
 	void promptSearch(std::pair<int, int> searchCoords);
 	void searchArea(std::pair<int, int> coords);
 public:
 	static const int MAP1 = PresetMapIds::MAP1;
+	TileMap();
 	TileMap(int mapId);
 	void display();
 	void displayLegend();
