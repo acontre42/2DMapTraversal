@@ -1,6 +1,6 @@
-#include "TileMap.h"
+#include "GameController.h"
 
-TileMap::TileMap()
+GameController::GameController()
 {
 	this->mapId = PresetMapIds::NO_MAP;
 	gameMap = nullptr;
@@ -17,7 +17,7 @@ TileMap::TileMap()
 	}
 }
 
-TileMap::TileMap(int mapId)
+GameController::GameController(int mapId)
 {
 	this->mapId = PresetMapIds::NO_MAP;
 	gameMap = nullptr;
@@ -32,7 +32,7 @@ TileMap::TileMap(int mapId)
 	}
 }
 
-void TileMap::setMapInfo(int newMapId)
+void GameController::setMapInfo(int newMapId)
 {
 	presetMaps.updateMapById(mapId, tilesMap); // save current map progress before changing map
 
@@ -49,7 +49,7 @@ void TileMap::setMapInfo(int newMapId)
 	this->cols = tilesMap[0].size();
 }
 
-std::string TileMap::checkDestination(std::pair<int, int> destination, int movement)
+std::string GameController::checkDestination(std::pair<int, int> destination, int movement)
 {
 	std::string destinationString = "", moveString = "";
 	switch (movement)
@@ -106,7 +106,7 @@ std::string TileMap::checkDestination(std::pair<int, int> destination, int movem
 	}
 }
 
-void TileMap::updatePlayerPos(std::pair<int, int> destination, int movement)
+void GameController::updatePlayerPos(std::pair<int, int> destination, int movement)
 {
 	if (destination != playerPos)
 	{
@@ -139,7 +139,7 @@ void TileMap::updatePlayerPos(std::pair<int, int> destination, int movement)
 	}
 }
 
-void TileMap::promptExit()
+void GameController::promptExit()
 {
 	char choice = ' ';
 	while (choice != 'Y' && choice != 'N')
@@ -164,7 +164,7 @@ void TileMap::promptExit()
 	}
 }
 
-void TileMap::promptUnlock(GameMap nextAreaGameMap) // ***
+void GameController::promptUnlock(GameMap nextAreaGameMap) // ***
 {
 	int unlockPrice = nextAreaGameMap.getUnlockPrice();
 	std::cout << "The next area costs " << unlockPrice << " coins to unlock. ";
@@ -189,7 +189,7 @@ void TileMap::promptUnlock(GameMap nextAreaGameMap) // ***
 	}
 }
 
-void TileMap::promptSearch(std::pair<int, int> searchCoords)
+void GameController::promptSearch(std::pair<int, int> searchCoords)
 {
 	Tile* targetTile = &tilesMap[searchCoords.first][searchCoords.second];
 	std::string tileDesc = targetTile->getDesc();
@@ -216,7 +216,7 @@ void TileMap::promptSearch(std::pair<int, int> searchCoords)
 	}
 }
 
-void TileMap::searchArea(std::pair<int, int> coords)
+void GameController::searchArea(std::pair<int, int> coords)
 {
 	Tile* tile = &tilesMap[coords.first][coords.second];
 	if (tile->wasSearched())
@@ -242,7 +242,7 @@ void TileMap::searchArea(std::pair<int, int> coords)
 	player.coins = player.coins + numCoins;
 }
 
-void TileMap::display()
+void GameController::display()
 {
 	// info
 	char playerIcon = ' ';
@@ -299,7 +299,7 @@ void TileMap::display()
 	std::cout << "\n";
 }
 
-void TileMap::displayLegend()
+void GameController::displayLegend()
 {
 	std::vector<std::pair<std::string, char>> legend = Tile::getLegendAsPairs();
 	for (int i = 0; i < 20; i++)
@@ -318,7 +318,7 @@ void TileMap::displayLegend()
 	std::cout << "\n";
 }
 
-std::string TileMap::goForward()
+std::string GameController::goForward()
 {
 	int facing = player.facing;
 	std::pair<int, int> destination = playerPos;
@@ -341,7 +341,7 @@ std::string TileMap::goForward()
 	return checkDestination(destination, FORWARD);
 }
 
-std::string TileMap::goBackward()
+std::string GameController::goBackward()
 {
 	int facing = player.facing;
 	std::pair<int, int> destination = playerPos;
@@ -364,7 +364,7 @@ std::string TileMap::goBackward()
 	return checkDestination(destination, BACKWARD);
 }
 
-std::string TileMap::goLeft()
+std::string GameController::goLeft()
 {
 	int facing = player.facing;
 	std::pair<int, int> destination = playerPos;
@@ -387,7 +387,7 @@ std::string TileMap::goLeft()
 	return checkDestination(destination, LEFT);
 }
 
-std::string TileMap::goRight()
+std::string GameController::goRight()
 {
 	int facing = player.facing;
 	std::pair<int, int> destination = playerPos;
@@ -410,7 +410,7 @@ std::string TileMap::goRight()
 	return checkDestination(destination, RIGHT);
 }
 
-void TileMap::traverse() // TO DO: separate into functions?
+void GameController::traverse() // TO DO: separate into functions?
 {
 	while (true)
 	{

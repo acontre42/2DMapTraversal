@@ -1,9 +1,9 @@
 // Practicing 2D map representation and traversal methods.
-#include "TileMap.h"
+#include "GameController.h"
 
 int main()
 {
-	TileMap map;
+	GameController map;
 	map.traverse();
 
 	return 0;

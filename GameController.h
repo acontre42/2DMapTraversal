@@ -23,7 +23,7 @@ struct Player
 	}
 };
 
-class TileMap
+class GameController
 {
 private:
 	PresetMapIds presetMaps; // Object with Map of vector<vector<Tile>> maps.
@@ -44,8 +44,8 @@ private:
 	void searchArea(std::pair<int, int> coords);
 public:
 	static const int MAP1 = PresetMapIds::MAP1;
-	TileMap();
-	TileMap(int mapId);
+	GameController();
+	GameController(int mapId);
 	void display();
 	void displayLegend();
 	std::string goForward();
