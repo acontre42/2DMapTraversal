@@ -39,9 +39,10 @@ private:
 	std::string checkDestination(std::pair<int, int> destination, int direction);
 	void updatePlayerPos(std::pair<int, int> destination, int movement);
 	void promptExit();
-	void promptUnlock(GameMap nextAreaGameMap); // ***
+	void promptUnlock(GameMap nextAreaGameMap);
 	void promptSearch(std::pair<int, int> searchCoords);
 	void searchArea(std::pair<int, int> coords);
+	bool isValidChoice(char choice, std::vector<char> options = { 'Y', 'N' }); // ***
 public:
 	static const int MAP1 = PresetMapIds::MAP1;
 	GameController();

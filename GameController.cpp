@@ -142,14 +142,14 @@ void GameController::updatePlayerPos(std::pair<int, int> destination, int moveme
 void GameController::promptExit()
 {
 	char choice = ' ';
-	while (choice != 'Y' && choice != 'N')
+	do
 	{
 		std::cout << "Would you like to move to next area? Enter 'Y' for yes or 'N' for no. \n";
 		std::cin >> choice;
 		choice = toupper(choice);
 		std::cin.clear();
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	}
+	} while (!isValidChoice(choice)); // ***
 
 	if (choice == 'Y')
 	{
@@ -164,20 +164,21 @@ void GameController::promptExit()
 	}
 }
 
-void GameController::promptUnlock(GameMap nextAreaGameMap) // ***
+void GameController::promptUnlock(GameMap nextAreaGameMap) 
 {
 	int unlockPrice = nextAreaGameMap.getUnlockPrice();
 	std::cout << "The next area costs " << unlockPrice << " coins to unlock. ";
 
 	char choice = ' ';
-	while (choice != 'Y' && choice != 'N')
+	do
 	{
 		std::cout << "Would you like to use your coins to unlock this area? Enter 'Y' for yes or 'N' for no.\n";
 		std::cin >> choice;
 		choice = toupper(choice);
 		std::cin.clear();
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	}
+	} while (!isValidChoice(choice)); // ***
+
 	if (choice == 'Y')
 	{
 		bool successfulUnlock = nextAreaGameMap.unlock(player.coins);
@@ -200,14 +201,14 @@ void GameController::promptSearch(std::pair<int, int> searchCoords)
 	else
 	{
 		char choice = ' ';
-		while (choice != 'Y' && choice != 'N')
+		do
 		{
 			std::cout << "Would you like to search " << tileDesc << "? Enter 'Y' for yes or 'N' for no. \n";
 			std::cin >> choice;
 			choice = toupper(choice);
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		}
+		} while (!isValidChoice(choice)); // ***
 
 		if (choice == 'Y')
 		{
@@ -416,8 +417,9 @@ void GameController::traverse() // TO DO: separate into functions?
 	{
 		display();
 
+		std::vector<char> options = { 'F', 'B', 'L', 'R', 'M', 'Q', '$' }; // ***
 		char choice = ' ';
-		while (choice != 'F' && choice != 'B' && choice != 'L' && choice != 'R' && choice != 'M' && choice != 'Q')
+		do
 		{
 			std::cout << "Enter 'F' to move FORWARD, 'B' to move BACKWARD, 'L' to go LEFT, or 'R' to go RIGHT.\n";
 			std::cout << "To display MAP LEGEND, enter 'M'. To QUIT program, enter 'Q'.\n";
@@ -426,7 +428,7 @@ void GameController::traverse() // TO DO: separate into functions?
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			choice = toupper(choice);
-		}
+		} while (!isValidChoice(choice, options));
 
 		std::string result = "";
 		switch (choice)
@@ -449,6 +451,9 @@ void GameController::traverse() // TO DO: separate into functions?
 		case 'Q':
 			std::cout << "Goodbye!\n";
 			exit(0);
+		case '$': // ***
+			player.coins = player.coins + 500;
+			break;
 		default:
 			std::cout << "ERROR: choice error\n";
 			exit(1);
@@ -466,7 +471,7 @@ void GameController::traverse() // TO DO: separate into functions?
 		{
 			int nextId = currentTile->getExitId();
 			GameMap nextGM = presetMaps.getGameMapById(nextId);
-			if (nextGM.isLocked()) // ***
+			if (nextGM.isLocked()) 
 			{
 				promptUnlock(nextGM);
 			}
@@ -478,4 +483,17 @@ void GameController::traverse() // TO DO: separate into functions?
 
 		std::cout << "\n";
 	}
+}
+// Checks if user input is valid choice. By default, options are Y/N.
+bool GameController::isValidChoice(char choice, std::vector<char> options) // ***
+{
+	std::vector<char>::iterator it;
+	for (it = options.begin(); it != options.end(); it++)
+	{
+		if (choice == *it)
+		{
+			return true;
+		}
+	}
+	return false;
 }
